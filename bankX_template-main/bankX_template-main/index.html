@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANK X | O Futuro Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="assets/icon.png">
+    <style>
+        /* Animação suave para o cartão no hero */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation { animation: float 4s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 font-sans">
+
+    <header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter">BANK <span class="text-blue-600">X</span></div>
+            <ul class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest">
+                <li><a href="#sec2" class="hover:text-blue-600 transition-colors">Quem somos?</a></li>
+                <li><a href="#sec3" class="hover:text-blue-600 transition-colors">Serviços</a></li>
+                <li><a href="#" class="bg-black text-white px-5 py-2 rounded-full hover:bg-blue-600 transition-all">Abrir Conta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="z-10 text-center lg:text-left">
+                    <h1 class="text-6xl md:text-8xl font-black leading-none mb-6">BANK X</h1>
+                    <p class="text-xl md:text-2xl font-medium text-blue-600 mb-4 uppercase tracking-tight">O melhor quando se fala de bancos digitais.</p>
+                    <h2 class="text-gray-500 text-lg mb-8 max-w-xl leading-relaxed">
+                        Sua vida financeira simplificada. Tecnologia de ponta para gerenciar seus ativos com a segurança que você merece e a agilidade que o mundo moderno exige.
+                    </h2>
+                    <a href="#" class="inline-block bg-black text-white px-10 py-4 font-bold rounded-lg hover:scale-105 transition-transform shadow-xl uppercase tracking-widest">Se cadastre aqui</a>
+                </div>
+
+                <div class="relative flex justify-center items-center">
+                    <div class="relative z-10 float-animation w-full max-w-md">
+                        <img src="assets/cart.png" alt="Cartão Bank X" title="Cartão" class="w-full h-auto drop-shadow-2xl">
+                    </div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-400/20 blur-[100px] rounded-full"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec2" class="py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-black uppercase mb-4">FAQ Section</h2>
+                    <div class="w-20 h-2 bg-blue-600 mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 border border-gray-100 hover:border-blue-500 transition-colors rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-3">
+                            <span class="text-blue-600 text-2xl">01.</span> Como abro minha conta?
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">O processo é 100% digital. Basta clicar em "Se Cadastre Aqui", enviar seus documentos e em poucos minutos você terá acesso ao futuro.</p>
+                    </div>
+
+                    <div class="bg-white p-8 border border-gray-100 hover:border-blue-500 transition-colors rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-3">
+                            <span class="text-blue-600 text-2xl">02.</span> Quais são as taxas?
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Transparência total. No Bank X você não paga anuidade e tem transferências ilimitadas para qualquer banco via PIX.</p>
+                    </div>
+
+                    <div class="bg-white p-8 border border-gray-100 hover:border-blue-500 transition-colors rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-3">
+                            <span class="text-blue-600 text-2xl">03.</span> É seguro?
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Utilizamos criptografia de nível militar e autenticação multifatorial para garantir que seus dados e seu dinheiro estejam sempre protegidos.</p>
+                    </div>
+
+                    <div class="bg-white p-8 border border-gray-100 hover:border-blue-500 transition-colors rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-3">
+                            <span class="text-blue-600 text-2xl">04.</span> Atendimento 24/7?
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Sim. Nosso suporte humano está disponível a qualquer hora do dia ou da noite através do chat direto no nosso aplicativo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec3" class="py-24 border-t border-gray-100 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+                <div class="w-full lg:w-1/2">
+                    <img src="assets/2086.png" alt="Nossos Serviços" class="w-full h-auto rounded-3xl shadow-2xl">
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <h2 class="text-4xl font-black mb-6 uppercase">O que fazemos?</h2>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Muito além de um cartão de crédito. Oferecemos uma plataforma completa de investimentos, gestão de gastos com IA e cashback em mais de 100 parceiros. Criamos soluções que se adaptam ao seu estilo de vida.
+                    </p>
+                    <div class="mb-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 text-xs font-bold uppercase tracking-widest">
+                        * Esteja atento aos dados que envia *
+                    </div>
+                    <a href="#" class="inline-block bg-blue-600 text-white px-10 py-4 font-bold rounded-lg hover:bg-blue-700 transition-colors uppercase tracking-widest">Se cadastre aqui</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-sm font-medium">
+                <div class="col-span-2">
+                    <div class="text-2xl font-black mb-4">BANK X</div>
+                    <p class="text-gray-400 max-w-xs">O banco digital que entende você. Conectando pessoas e tecnologias em todo o mundo.</p>
+                </div>
+                <div class="flex flex-col space-y-3">
+                    <h4 class="font-bold text-gray-500 uppercase text-xs">Suporte</h4>
+                    <a href="#" class="hover:text-blue-400">FAQ</a>
+                    <a href="#" class="hover:text-blue-400">Ajuda</a>
+                    <a href="#" class="hover:text-blue-400">Chat</a>
+                </div>
+                <div class="flex flex-col space-y-3">
+                    <h4 class="font-bold text-gray-500 uppercase text-xs">Empresa</h4>
+                    <a href="#" class="hover:text-blue-400">Sobre</a>
+                    <a href="#" class="hover:text-blue-400">Carreiras</a>
+                </div>
+                <div class="flex flex-col space-y-3">
+                    <h4 class="font-bold text-gray-500 uppercase text-xs">Legal</h4>
+                    <a href="#" class="hover:text-blue-400">Privacidade</a>
+                    <a href="#" class="hover:text-blue-400">Termos</a>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-xs text-gray-600 uppercase font-bold tracking-widest">
+                © 2026 Bank X - Desenvolvido por Juan Alan
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

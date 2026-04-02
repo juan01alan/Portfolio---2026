@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search | Juan Alan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="movie-svgrepo-com.svg" type="image/x-icon">
+    <style>
+        .movie-card:hover img { transform: scale(1.05); }
+        .movie-card img { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white font-sans min-h-screen">
+
+    <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-black tracking-tighter uppercase">Juan Alan</h1>
+            <div id="status-display" class="text-sm font-bold text-zinc-500 uppercase tracking-widest">
+                Movie Search
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <section class="flex flex-col items-center mb-16">
+            <form onsubmit="handleSearch(event)" class="w-full max-w-2xl flex gap-2">
+                <input type="text" name="Buscando" id="Titulo" placeholder="Digite o nome de um filme..." 
+                    class="flex-grow bg-zinc-900 border-2 border-zinc-800 rounded-lg px-6 py-4 text-lg focus:border-red-600 outline-none transition-all">
+                <button type="submit" 
+                    class="bg-red-600 hover:bg-red-700 text-white font-black px-8 py-4 rounded-lg uppercase tracking-widest transition-colors shadow-lg shadow-red-900/20">
+                    Buscar
+                </button>
+            </form>
+        </section>
+
+        <div id="sc1" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+            <div class="col-span-full text-center text-zinc-600 py-20 border-2 border-dashed border-zinc-800 rounded-2xl">
+                <p class="text-xl italic">Aguardando sua busca...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const statusDisplay = document.querySelector('#status-display');
+        const resultsContainer = document.getElementById("sc1");
+
+        function handleSearch(event) {
+            event.preventDefault();
+            const query = event.target.Buscando.value;
+            if(!query) return;
+            
+            searchMovies(query);
+        }
+
+        function updateStatus(text, isError = false) {
+            statusDisplay.innerHTML = text;
+            statusDisplay.classList.add(isError ? 'text-red-500' : 'text-green-500');
+            
+            setTimeout(() => {
+                statusDisplay.innerHTML = 'Movie Search';
+                statusDisplay.classList.remove('text-red-500', 'text-green-500');
+            }, 2000);
+        }
+
+        function searchMovies(filme) {
+            resultsContainer.innerHTML = `<div class="col-span-full text-center py-20">Carregando...</div>`;
+
+            fetch(`https://www.omdbapi.com/?apikey=e67d05fe&s=${filme}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Response === "True") {
+                        resultsContainer.innerHTML = "";
+                        updateStatus("Filmes encontrados!");
+
+                        data.Search.slice(0, 10).forEach(movie => {
+                            const poster = movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/300x450?text=Sem+Poster";
+                            
+                            resultsContainer.innerHTML += `
+                                <div class="movie-card bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-zinc-600 transition-all">
+                                    <div class="aspect-[2/3] overflow-hidden">
+                                        <img src="${poster}" alt="${movie.Title}" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="p-4">
+                                        <h2 class="font-bold text-sm line-clamp-2 h-10">${movie.Title}</h2>
+                                        <p class="text-zinc-500 text-xs mt-2">${movie.Year}</p>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        throw new Error("Não encontrado");
+                    }
+                })
+                .catch(error => {
+                    updateStatus("Filme não encontrado", true);
+                    resultsContainer.innerHTML = `
+                        <div class="col-span-full text-center text-red-500 py-20">
+                            Nenhum resultado para "${filme}". Tente outro título.
+                        </div>
+                    `;
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+ 
+
+ h1{
+    font-size: 16px;
+
+ }
+ 
+ h2{
+    font-size: 15px;
+
+}
+h3{
+    font-size: 14px;
+
+}
+h4{    
+    font-size: 13px;
+
+
+}
+h5{
+    font-size: 12px;
+
+}
+h6{
+    font-size: 11px;
+
+}
+p,span,a{    
+    font-size: 11px;
+
+
+}
+
+.movieSearch{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items:stretch;
+    height: fit-content;
+}
+
+
+.MoviesDiv{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    height: fit-content;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.movieDiv{
+    width: 100%;
+    margin: 1%;
+    height: fit-content;
+}
+
+
+.movieSearch form{
+    height: fit-content;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.grid{
+    display: grid;
+    gap: 2%;
+    height: fit-content;
+    width: 100%;
+}
+.center{
+    height: fit-content;
+}
+#princDiv{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+.PrinDiv{
+    height: fit-content;
+}
+.movieDiv h1{
+    text-align: center;
+    text-justify: center;
+}
+
+.movieSearch input:nth-child(1){
+    width: 100%;
+    padding: 2%;
+}
+
+.movieSearch input:nth-child(2){
+    width: 100%;
+    padding: 2%;
+}

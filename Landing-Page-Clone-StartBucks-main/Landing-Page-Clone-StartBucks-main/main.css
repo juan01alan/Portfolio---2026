@@ -1,0 +1,683 @@
+/*RESET*/
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+  }
+img{
+    max-width: 100%;
+    height: auto;
+}
+/*FINAL RESET*/
+
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media only screen and (min-width: 150px) and (max-width: 768px) {
+    /*CELULARES*/
+    
+    nav{
+        height: 10vh;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .linksnv{
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .linksnv a{
+        font-size: calc(10px + 0.4vw);
+        text-decoration: none;
+        margin: 0 4%;
+        color: black;
+        font-weight: bold;
+    }
+    
+    .linksnv a:hover{
+        animation: hover .5s ease-in-out forwards;
+    }
+    
+    main{
+        overflow-x: hidden;
+        overflow-y: hidden;
+        display: flex;
+        height: 80vh;
+        width: 100%;
+    }
+    .textmn{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .textmn .maintext{
+        text-align: center;
+        width: 100%;
+    }
+    .maintext h1{
+        font-size: calc(16px + 0.6vw);
+        font-weight: lighter;
+        letter-spacing: 1px;
+    }
+    .maintext h2{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: calc(18px + 0.6vw);
+    }
+    .maintext h2 span{
+        color: green;
+        letter-spacing: 0px;
+        font-size: calc(26px + 0.6vw);
+    }
+
+    .textmn p{
+        width: 90%;
+        margin: 5% 0;
+        font-weight: 800;
+	text-align:Center;
+        font-size: calc(10px + 0.6vw);
+    }
+
+    .textmn a{
+        background-color: green;
+        border: 0px;
+        outline: 0px;
+        color: white;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        font-size: calc(10px + 0.6vw);
+        padding: 4% 6%;
+        border-radius: 10px;
+    }
+
+    .textmn a:hover{
+        animation: btn .5s ease-in-out forwards;
+    }
+
+    .itens{
+        display: none;
+    }
+
+    .brand{
+        display: none;
+    }
+
+    .logonv{
+        display: none;
+    }
+    
+}
+
+
+@media only screen and (min-width: 769px) and (max-width:992px) {
+    /*Tablets*/
+    
+    nav{
+        height: 20vh;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logonv{
+        width: 30%;
+        height: auto;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        height: 100%;
+    }
+    
+    .logonv img{
+        margin-right: 15%;
+        max-width: 100%;
+        height: 80%;
+        width: auto;
+    }
+
+    .logonv img:hover{
+        cursor: pointer;
+        animation: hover .5s linear forwards;
+    }
+    
+    .linksnv{
+        align-items: center;
+        height: 100%;
+        width: 70%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .linksnv a{
+        font-size: calc(16px + 0.4vw);
+        text-decoration: none;
+        margin: 0 2%;
+        color: black;
+        font-weight: bold;
+    }
+    
+    .linksnv a:hover{
+        animation: hover .5s ease-in-out forwards;
+    }
+    
+    main{
+        display: flex;
+        height: 80vh;
+        width: 100%;
+    }
+    .textmn{
+        margin-left: 1%;
+        margin-top:-20%;
+        width: 50vw;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .textmn .maintext{
+        text-align: start;
+    }
+    .maintext h1{
+        font-size: calc(36px + 0.7vw);
+        font-weight: lighter;
+        letter-spacing: 1px;
+    }
+    .maintext h2{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: calc(36px + 0.7vw);
+    }
+    .maintext h2 span{
+        color: green;
+        letter-spacing: 0px;
+        font-size: calc(48px + 0.7vw);
+    }
+
+    .textmn p{
+        width: 150%;
+        margin: 4% 0;
+        line-height: 150%;
+        font-weight: 600;
+        text-justify: distribute;
+        font-size: calc(22px + 0.5vw);
+    }
+
+    .textmn a{
+        background-color: green;
+        border: 0px;
+        outline: 0px;
+        color: white;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        font-size: calc(22px + 0.5vw);
+        padding: 6% 6%;
+        border-radius: 40px;
+    }
+
+    .textmn a:hover{
+        animation: btn .5s ease-in-out forwards;
+    }
+
+    .itens{
+        display: flex;
+        width: 30%;
+        height: 8vh;
+        align-items: stretch;
+        position: absolute;
+        left: 30%;
+        bottom: 2%;
+        justify-content: center;
+        z-index: 44;
+    }
+
+    .itens img{
+        margin: 0 2%;
+        cursor: pointer;
+    }
+
+    .itens img:hover{
+        filter: grayscale(100%);
+    }
+
+    .brand{
+        overflow: hidden;
+        width: 50vw;
+        height: 80vh;
+        display: flex;
+        position: relative;
+        align-items: center;
+    }
+
+    .brand .social{
+        margin-left: 80%;
+        margin-top: -150%;
+        display: flex;
+        flex-direction: column;
+        height: 30vh;
+        width: 20%;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .brand .social a:hover{
+        animation: hover .5s linear forwards;
+    }
+
+    .brand > img:nth-child(1){
+        height: 50%;
+        position: absolute;
+        left: 25%;
+	bottom: 0;
+        width: auto;
+        transform: rotate(5deg);
+        cursor: pointer;
+    }
+
+    .brand >img:nth-child(1):hover{
+        filter: grayscale(100%);
+    }
+
+    .circlebd{
+        background-color: green;
+        width: 120vw;
+        position: absolute;
+        left: 25%;
+        top: 25%;
+        height: 80vh;
+	transform: rotate(-35deg);
+        z-index: -1;
+        border-radius: 60vw;
+    }
+}
+
+@media only screen and (min-width: 993px) and (max-width:1200px) {
+    /*DESKTOPS MEDIOS*/
+    
+    nav{
+        height: 20vh;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logonv{
+        width: 30%;
+        height: auto;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        height: 100%;
+    }
+    
+    .logonv img{
+        margin-right: 45%;
+        max-width: 100%;
+        height: 80%;
+        width: auto;
+    }
+
+    .logonv img:hover{
+        cursor: pointer;
+        animation: hover .5s linear forwards;
+    }
+    
+    .linksnv{
+        align-items: center;
+        height: 100%;
+        width: 70%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .linksnv a{
+        font-size: calc(18px + 0.2vw);
+        text-decoration: none;
+        margin: 0 2%;
+        color: black;
+        font-weight: bold;
+    }
+    
+    .linksnv a:hover{
+        animation: hover .5s ease-in-out forwards;
+    }
+    
+    main{
+        display: flex;
+        height: 80vh;
+        width: 100%;
+    }
+    .textmn{
+        margin-left: 5%;
+        width: 50vw;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .textmn .maintext{
+        text-align: start;
+    }
+    .maintext h1{
+        font-size: calc(34px + 0.4vw);
+        font-weight: lighter;
+        letter-spacing: 1px;
+    }
+    .maintext h2{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: calc(34px + 0.4vw);
+    }
+    .maintext h2 span{
+        color: green;
+        letter-spacing: 0px;
+        font-size: calc(54px + 0.4vw);
+    }
+
+    .textmn p{
+        width: 80%;
+        margin: 4% 0;
+        line-height: 150%;
+        font-weight: 600;
+        text-justify: distribute;
+        font-size: calc(14px + 0.2vw);
+    }
+
+    .textmn a{
+        background-color: green;
+        border: 0px;
+        outline: 0px;
+        color: white;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        font-size: calc(14px + 0.2vw);
+        padding: 2% 4%;
+        border-radius: 40px;
+    }
+
+    .textmn a:hover{
+        animation: btn .5s ease-in-out forwards;
+    }
+
+    .itens{
+        display: flex;
+        width: 35%;
+        height: 18vh;
+        align-items: stretch;
+        position: absolute;
+        left: 37%;
+        bottom: 0;
+        justify-content: center;
+        z-index: 44;
+    }
+
+    .itens img{
+        margin: 0 2%;
+        cursor: pointer;
+    }
+
+    .itens img:hover{
+        filter: grayscale(100%);
+    }
+
+    .brand{
+        overflow: hidden;
+        width: 50vw;
+        height: 80vh;
+        display: flex;
+        position: relative;
+        align-items: center;
+    }
+
+    .brand .social{
+        margin-left: 80%;
+        display: flex;
+        flex-direction: column;
+        height: 30vh;
+        width: 30%;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .brand .social a:hover{
+        animation: hover .5s linear forwards;
+    }
+
+    .brand > img:nth-child(1){
+        height: 80%;
+        position: absolute;
+        left: 20%;
+        width: auto;
+        transform: rotate(-35deg);
+        cursor: pointer;
+    }
+
+    .brand >img:nth-child(1):hover{
+        filter: grayscale(100%);
+    }
+
+    .circlebd{
+        background-color: green;
+        width: 60vw;
+        position: absolute;
+        left: 25%;
+        top: 10%;
+        height: 120vh;
+        z-index: -1;
+        border-radius: 60vw;
+    }
+}
+
+@media only screen and (min-width: 1201px) {
+    /*DESKTOPS GRANDES*/
+
+
+    nav{
+        height: 20vh;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logonv{
+        width: 30%;
+        height: auto;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        height: 100%;
+    }
+    
+    .logonv img{
+        margin-right: 45%;
+        max-width: 100%;
+        height: 80%;
+        width: auto;
+    }
+
+    .logonv img:hover{
+        cursor: pointer;
+        animation: hover .5s linear forwards;
+    }
+    
+    .linksnv{
+        align-items: center;
+        height: 100%;
+        width: 70%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .linksnv a{
+        font-size: calc(16px + 0.2vw);
+        text-decoration: none;
+        margin: 0 2%;
+        color: black;
+        font-weight: bold;
+    }
+    
+    .linksnv a:hover{
+        animation: hover .5s ease-in-out forwards;
+    }
+    
+    main{
+        display: flex;
+        height: 80vh;
+        width: 100%;
+    }
+    .textmn{
+        margin-left: 5%;
+        width: 50vw;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .textmn .maintext{
+        text-align: start;
+    }
+    .maintext h1{
+        font-size: calc(42px + 0.4vw);
+        font-weight: lighter;
+        letter-spacing: 1px;
+    }
+    .maintext h2{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: calc(38px + 0.4vw);
+    }
+    .maintext h2 span{
+        color: green;
+        letter-spacing: 0px;
+        font-size: calc(60px + 0.4vw);
+    }
+
+    .textmn p{
+        width: 80%;
+        margin: 4% 0;
+        line-height: 150%;
+        font-weight: 600;
+        text-justify: distribute;
+        font-size: calc(18px + 0.2vw);
+    }
+
+    .textmn a{
+        background-color: green;
+        border: 0px;
+        outline: 0px;
+        color: white;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        font-size: calc(18px + 0.2vw);
+        padding: 2% 4%;
+        border-radius: 40px;
+    }
+
+    .textmn a:hover{
+        animation: btn .5s ease-in-out forwards;
+    }
+
+    .itens{
+        display: flex;
+        width: 35%;
+        height: 15vh;
+        align-items: stretch;
+        position: absolute;
+        left: 40%;
+        bottom: 0;
+        justify-content: center;
+        z-index: 44;
+    }
+
+    .itens img{
+        margin: 0 2%;
+        cursor: pointer;
+    }
+
+    .itens img:hover{
+        filter: grayscale(100%);
+    }
+
+    .brand{
+        overflow: hidden;
+        width: 50vw;
+        height: 80vh;
+        display: flex;
+        position: relative;
+        align-items: center;
+    }
+
+    .brand .social{
+        margin-left: 80%;
+        display: flex;
+        flex-direction: column;
+        height: 30vh;
+        width: 20%;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .brand .social a:hover{
+        animation: hover .5s linear forwards;
+    }
+
+    .brand > img:nth-child(1){
+        height: 70%;
+        position: absolute;
+        left: 20%;
+        width: auto;
+        transform: rotate(-35deg);
+        cursor: pointer;
+    }
+
+    .brand >img:nth-child(1):hover{
+        filter: grayscale(100%);
+    }
+
+    .circlebd{
+        background-color: green;
+        width: 60vw;
+        position: absolute;
+        left: 25%;
+        top: 10%;
+        height: 120vh;
+        z-index: -1;
+        border-radius: 60vw;
+    }
+
+}
+
+@keyframes btn {
+    to{
+        background-color: black;
+    }
+}
+@keyframes hover {
+    to{
+        color: burlywood;
+        transform: scale(1.05);
+    }
+}

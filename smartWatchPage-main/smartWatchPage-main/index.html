@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Watch | Premium Seller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="assets/icon.png" type="image/x-icon">
+</head>
+<body class="bg-white text-zinc-900 font-sans overflow-x-hidden">
+
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-zinc-100">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tighter uppercase">SmartWatch</h1>
+            
+            <ul class="hidden md:flex space-x-8 text-xs font-bold tracking-widest">
+                <li><a href="#sec1" class="hover:text-blue-600 transition-colors">HOME</a></li>
+                <li><a href="#sec2" class="hover:text-blue-600 transition-colors">ABOUT</a></li>
+                <li><a href="#sec3" class="hover:text-blue-600 transition-colors">FEATURES</a></li>
+                <li><a href="#sec4" class="hover:text-blue-600 transition-colors">CONTACT</a></li>
+            </ul>
+
+            <button id="menu-btn" class="md:hidden w-8 h-8 flex items-center justify-center">
+                <img src="assets/pngwing.com (7).png" alt="Menu" class="w-full h-auto">
+            </button>
+        </nav>
+
+        <div id="mobile-menu" class="fixed inset-0 bg-black text-white z-[60] translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-8 text-2xl font-black">
+            <button id="close-btn" class="absolute top-6 right-6 text-4xl">&times;</button>
+            <a href="#sec1" class="mobile-link">HOME</a>
+            <a href="#sec2" class="mobile-link">ABOUT</a>
+            <a href="#sec3" class="mobile-link">FEATURES</a>
+            <a href="#sec4" class="mobile-link">CONTACT</a>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        <section id="sec1" class="min-h-[80vh] flex items-center px-6 py-20 bg-zinc-50">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1 text-center lg:text-left">
+                    <h2 class="text-5xl md:text-8xl font-black mb-6 leading-none">Big News.</h2>
+                    <p class="text-xl text-zinc-500 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                        Introducing Apple Watch Series 4. Fundamentally redesigned and re-engineered to help you stay even more active, healthy, and connected.
+                    </p>
+                    <a href="#" class="inline-block border-2 border-black px-10 py-4 font-black hover:bg-black hover:text-white transition-all uppercase tracking-widest text-sm">See More</a>
+                </div>
+                <div class="order-1 lg:order-2 flex justify-center">
+                    <img src="assets/pngwing.com (5).png" alt="Apple Watch 4" class="w-full max-w-md drop-shadow-2xl">
+                </div>
+            </div>
+        </section>
+
+        <section id="sec2" class="py-24 px-6 border-y border-zinc-100">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="flex justify-center">
+                    <img src="assets/pngwing.com (3).png" alt="Features" class="w-full max-w-sm">
+                </div>
+                <div>
+                    <h2 class="text-4xl font-black mb-8 uppercase tracking-tighter">Eco-Friendly <br><span class="text-green-600">Features:</span></h2>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-bold text-zinc-600 uppercase tracking-wide">
+                        <li class="flex items-center gap-2 italic underline decoration-green-500">Arsenic-free glass</li>
+                        <li class="flex items-center gap-2 italic underline decoration-green-500">Mercury-free</li>
+                        <li class="flex items-center gap-2 italic underline decoration-green-500">BFR-free</li>
+                        <li class="flex items-center gap-2 italic underline decoration-green-500">PVC-free</li>
+                        <li class="flex items-center gap-2 italic underline decoration-green-500">Berullium-free</li>
+                        <li class="flex items-center gap-2 italic underline decoration-green-500">Low-carbon process</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec3" class="py-24 px-6">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="text-center lg:text-left">
+                    <h3 class="text-4xl font-black mb-6 leading-tight">Advanced Heart <br>Monitoring.</h3>
+                    <p class="text-zinc-500 mb-8 max-w-md mx-auto lg:mx-0">
+                        The largest Apple Watch display yet. Fundamentally redesigned with advanced capabilities to monitor your health at all times.
+                    </p>
+                    <a href="#" class="text-blue-600 font-black uppercase tracking-widest text-xs hover:underline">Learn More &rarr;</a>
+                </div>
+                <div class="flex justify-center">
+                    <img src="assets/pngwing.com (1).png" alt="Health" class="w-full max-w-md">
+                </div>
+            </div>
+        </section>
+
+        <section id="sec4" class="py-24 px-6 bg-zinc-950 text-white overflow-hidden">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="flex justify-center order-2 lg:order-1">
+                    <img src="assets/pngwing.com (4).png" alt="Motivation" class="w-full max-w-sm drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)]">
+                </div>
+                <div class="order-1 lg:order-2 text-center lg:text-left">
+                    <h3 class="text-4xl md:text-6xl font-black mb-6 leading-none">Made To <br>Motivate.</h3>
+                    <p class="text-zinc-400 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                        New head-to-head competitions. Activity sharing with friends. Personalized coaching. Get all the motivation you need to close your Activity rings every day.
+                    </p>
+                    <a href="#" class="inline-block bg-white text-black px-10 py-4 font-black hover:bg-zinc-200 transition-all uppercase tracking-widest text-sm">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-zinc-50 py-20 border-t border-zinc-100 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left">
+                <h4 class="text-xl font-black uppercase mb-2">SmartWatch</h4>
+                <p class="text-zinc-400 text-sm italic uppercase tracking-widest">Juan Alan © 2026</p>
+            </div>
+            <ul class="flex flex-wrap justify-center gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">
+                <li><a href="#" class="hover:text-black">Privacy</a></li>
+                <li><a href="#" class="hover:text-black">Terms</a></li>
+                <li><a href="#" class="hover:text-black">Cookies</a></li>
+                <li><a href="#" class="hover:text-black">Support</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        const toggleMenu = () => {
+            mobileMenu.classList.toggle('translate-x-full');
+        };
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    </script>
+</body>
+</html>

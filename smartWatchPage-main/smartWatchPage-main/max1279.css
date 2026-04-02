@@ -1,0 +1,301 @@
+nav{
+    height: 10vh;
+    padding: 1vh 0;
+    width: 100%;
+}
+
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+nav .center{
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+}
+
+nav .navbtn{
+    cursor: pointer;
+    width: 48px;
+    transition: border 0.5s ease;
+}
+
+.navbtn:hover{
+    border: 1px solid  black;
+}
+
+.navbar{
+    position: absolute;
+    transition: all .5s ease;
+    left: -110%;
+    top: 0;
+    width: 50%;
+    z-index: 9;
+    height: 100vh;
+}
+
+.navbar ul{
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar ul li{
+    text-align: center;
+    width: 100%;
+}
+
+.navbar ul li a{
+    display: block;
+    width: 100%;
+    padding: 10% 10px;
+    height: 100%;
+    color: white;
+    font-size: calc(14px + 0.2vw);
+}
+
+.navbar ul li:hover{
+    background: white;
+}
+
+.navbar ul li:hover a{
+    color: black;
+}
+
+.sec1{
+    height: 88vh;
+    width: 100%;
+}
+
+.sec1 .center, .sec3 .center{
+    padding: 0 2%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.textsc1{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.sec3 .textsc1{
+    width: 50%;
+} .sec3 .imgsc1{
+    width: 40%;
+}
+
+.textsc1 h1{
+    margin: 8px 0;
+    font-weight: bold;
+    font-size: clamp(40px, 40px + 0.2vw, 65px);
+}
+
+.sec3 .textsc1 h1{
+    padding: 4px;
+    background: gray;
+    color: white;
+    font-size: clamp(20px, 20px + 0.2vw, 30px);
+    border-radius: 5px;
+}
+
+.sec3{
+    height: 80vh;
+    width: 100%;
+}
+.textsc1 p{
+    margin: 6px 0;
+    font-weight: bold;
+    font-size: clamp(17px, 17px + 0.2vw, 24px);
+}
+
+.textsc1 span{
+    margin: 4px 0;
+}
+
+.textsc1 a{
+    margin: 5px 0;
+    padding: 10px 0;
+    display: block;
+    text-align: center;
+    width: 60%;
+    background: purple;
+    color: white;
+}
+
+.sec3 .textsc1 a{
+    background: red;
+    width: 80%;
+    padding: 15px 0;
+}
+
+.textsc1 a:hover{
+    filter: invert(100%);
+}
+
+.imgsc1{
+    width: 35%;
+}
+
+.sec2{
+    height: 80vh;
+    width: 100%;
+    padding: 1% 0;
+    background: black;
+}
+
+.sec2 .center{
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8%;
+}
+
+.sec2 .imgsc2{
+    width: 35%;
+}
+
+.sec2 .listsc2{
+    width: 45%;
+    height: 100%;
+    padding: 0% 1%;
+    display: grid;
+    place-content: center;
+}
+
+.listsc2 h2{
+    font-weight: bold;
+    margin-top: 5%;
+    font-size: clamp(35px, 35px + 0.2vw, 45px);
+    color: white;
+}
+
+.listsc2 ul{
+    color: white;
+    margin: 2% 10%;
+    width: 100%;
+    height: 100%;
+}
+
+.listsc2 ul li{
+    font-weight: bold;
+    margin: 2% 0;
+    font-size: clamp(14px, 14px + 0.2vw, 19px);
+}
+
+.sec4{
+    height: 80vh;
+    width: 100%;
+    background: black;
+}
+
+.sec4 .center{
+    justify-content: space-between;
+    align-items: center;
+}
+
+.imgsc4 {
+    width: 40%;
+    overflow: hidden;
+    max-height: 100%;
+}
+#sec5{
+    width: 100%;
+    background: white;
+    height: 100vh;
+}
+#sec5 .textsc4{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+#sec5 .textsc4 *{
+    margin: 1% 0;
+    color: black;
+    border-color: black;
+}
+#sec5 .imgsc4{
+    width: 40%;
+}
+.imgsc4 img{
+    max-height: 100%;
+}
+
+.textsc4{
+    width: 45%;
+    display: grid;
+    place-content: center;
+    height: 80%;
+    padding: 10% 2%;
+}
+
+.textsc4 h3{
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    margin: 5% 0;
+    font-size: clamp(22px, 22px + 0.4vw, 32px);
+}
+
+.textsc4 p{
+    color: white;
+    margin: 5% 0;
+    font-weight: bold;
+    line-height: 110%;
+    font-size: clamp(14px, 14px + 0.2vw, 22px);
+}
+
+.textsc4 a{
+    margin: 5% 0;
+    display: block;
+    width: 60%;
+    padding: 16px 0;
+    text-align: center;
+    font-size: clamp(14px, 14px + 0.2vw, 22px);
+    color: white;
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+a:hover{
+    box-shadow: inset 0 0 16px black;
+}
+footer{
+    height: 20vh;
+    width: 100%;
+    background: black;
+}
+
+.textfooter{
+    width: 100%;
+}
+
+.textfooter p{
+    font-size: clamp(14px, 14px + 0.2vw, 18px);
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+    margin: 2% 0;
+}
+footer ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin: 0 10%;
+    justify-content: space-around;
+}
+
+footer a{
+    color: white;
+    font-size: clamp(11px, 11px + 0.2vw, 16px);
+}

@@ -1,0 +1,408 @@
+a{
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-align: center;
+    transition: filter .5s ease-out, color .5s ease-out, background .5s ease-out, border .5s ease-out;
+  }
+  nav{
+      padding: 2vh 0;
+      position: fixed;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+      height: 10vh;
+      background: black;
+  }
+  nav .container{
+    width: 95%;
+    height: 120%;
+    margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+  }
+  nav a{
+      margin: 0 5px;
+  }
+  nav a:nth-child(1){
+      padding: 8px 6px;
+      background: royalblue;
+  }
+  nav a:nth-child(1):hover{
+      background: darkblue;
+      color: white;
+  }
+  nav a:nth-child(2){
+      padding: 8px 6px;
+      border: 1px solid silver;
+      background: black;
+  }
+  nav a:nth-child(2):hover{
+      color: black;
+      border: 1px solid white;
+      background: white;
+  }
+  .purple{
+      background: rebeccapurple;
+      color: white;
+  }
+  .purple:hover{
+      border: 1px solid black;
+      background: purple;
+  }
+  .buttonsnv{
+      width: 100%;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  }
+  .logonv{
+      width: 80px;
+      display: flex;
+      justify-content: center;
+      height: 80%;
+  }
+  .sec0{
+      height: 100vh;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 1.5fr 1.4fr 1fr 50px;
+      width: 100%;
+      background: url("assets/background\ pc.jpg");
+      background-position: top;
+      background-size: cover;
+  }
+  .textsc0{
+    margin-left: 80px;
+      grid-row: 2/2;
+      width: 45%;
+      height: 100%;
+      margin-bottom: 10vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  .textsc0 h6{
+      text-align: center;
+      font-size: 24px;
+      text-shadow: 0 0 16px black;
+      color: white;
+  }
+  .textsc0 img{
+      margin: 15px 0;
+      width: calc(250px + 1vh);
+  }
+  .textsc0 a{
+      font-size: 14px;
+      display: block;
+      width: 100%;
+  }
+  .arrowhint{
+    margin-left: 80px;
+      cursor: pointer;
+      grid-row: 4/4;
+      height: 20px;
+      width: 100%;
+      margin-top: auto;
+      margin-bottom: 20px;
+      animation: hint 1s alternate infinite;
+  }
+  @keyframes hint {
+      20%{
+          transform: translateY(0px);
+      }
+      40%{
+          transform: translateY(-10px);
+      }
+      60%{
+          transform: translateY(0px);
+      }
+      80%{
+          transform: translateY(10px);
+      }
+  }
+  .arrowhint img{
+      height: 15px;
+      transform: rotate(180deg);
+      width: auto;
+  }
+  
+  .sec1{
+      padding: 5vh 2%;
+      width: 100%;
+      height: 100vh;
+  }
+  .containersc1{
+      margin: 10% 0%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-self: center;
+      flex-direction: column;
+      height: 80%;
+  }
+  
+  .containersc1 h2{
+      height: fit-content;
+      font-size: 30px;
+      letter-spacing: 1px;
+      color: white;
+      width: 100%;
+      text-align: center;
+  }
+  .flexsc1{
+      display: flex;
+      width: 100%;
+      margin: 5vh 0;
+      height: 70%;
+      align-items: baseline;
+      justify-content: space-around;
+  }
+  .itemsc1{
+      padding: 1vh 1%;
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items:stretch;
+      justify-content: space-between;
+      min-height: 50%;
+      height: fit-content;
+      margin: auto;
+  }
+  .itemsc1 p{
+      font-weight: bold;
+      font-size: 16px;
+      margin: 5px 0;
+      text-align: center;
+      color: white;
+  } .itemsc1 span{
+      color: silver;
+      font-weight: 500;
+      padding: 0 2%;
+      margin-bottom: 20px;
+      font-size: 10px;
+      text-align: center;
+      line-height: 120%;
+  }
+  .containersc1>span{
+      text-align: center;
+      color: silver;
+      font-size: 10px;
+  }
+  .flexsc1 .itemsc1:nth-child(2){
+      background: url("assets/mold.png");
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: top;
+  }
+  
+  .sec2{
+      width: 100%;
+      height: 120vh;
+  }
+  .textcontent{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 0.6fr 1fr;
+      justify-content: center;
+      padding: 0 2%;
+  }
+  .textcontent img{
+      width: 400px;
+      margin: auto;
+      height: auto;
+  }
+  .textcontent .full{
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      top: 0;
+      background: url("assets/lionKing.png") center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      width: 100%;
+      height: 100%;
+  }
+  .textcontent>.full + .textcontenttext{
+      width: 100%;
+      height: 100%;
+      padding: 0 10% 0 50%;
+      position: absolute;
+      top: 0%;
+  }
+  .textcontent>.full + .textcontenttext span{
+      font-size: 16px;
+  }
+  
+  .textcontenttext{
+      width: 80%;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: fit-content;
+  }
+  
+  .textcontenttext h6{
+      color: white;
+      font-size: 30px;
+      margin: 20px 0;
+  }
+  
+  .textcontenttext span{
+      line-height: 120%;
+      font-size: 18px;
+      color: silver;
+      letter-spacing: 1px;
+  }
+  
+  .sec3{
+      height: 100vh;
+      width: 100%;
+  }
+  
+  .sec4{
+      width: 100%;
+      padding: 20vh 2%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 90vh;
+      height: fit-content;
+  }
+  
+  .sec4 h5{
+      text-align: center;
+      color: white;
+      text-align: center;
+      font-size: 25px;
+  }
+  .gridsc4{
+      margin: 5vh 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 80%;
+      width: 100%;
+  }
+  .itensc4{
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+  }
+  .itensc4 .headersc4{
+      font-size: 16px;
+      font-weight: bolder;
+      margin: 10px 0;
+  }
+  
+  .itensc4 p{
+      font-size: 12px;
+      color: white;
+      text-align: center;
+      margin: 5px 0;
+  }
+  .clickfaq{
+      height: 100%;
+  }
+  .faq{
+      width: 80%;
+      margin: auto;
+      height: 80%;
+      height: fit-content;
+  }
+  .faq h5{
+      color: white;
+      text-align: center;
+      font-size: 30px;
+  }
+  .itenfaq{
+      margin: 6px 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+  }
+  
+  .itenfaq button{
+      cursor: pointer;
+      border: 0;
+      outline: 0;
+      color: white;
+      background: royalblue;
+      width: 100%;
+      padding:10px 2%;
+      font-size: 16px;
+      align-items: center;
+      position: relative;
+      display: block;
+      display: flex;
+      justify-content: space-between;
+  }
+  .sec5{
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6vh 1%;
+      height: fit-content;
+  }
+  
+  .hidderfaq{
+      padding: 10px;
+      display: none;
+      font-size: 16px;
+      margin: 0;
+      color: white;
+      background: royalblue;
+      width: 100%;
+  }
+  .Clicked + .hidderfaq{
+      display: block;
+      margin: 2px 0 3px 0;
+  }
+  
+  footer{
+      height: 8vh;
+      padding: 1vh 2%;
+      display: grid;
+      width: 100%;
+      place-content: center;
+      grid-template-columns: 1fr;
+      grid-template-rows: 0.2fr 1fr 1fr;
+  }
+  .logofooter{
+      width: 100%;
+      display: flex;
+      margin: 15px 0;
+      justify-content: center;
+      height: 100%;
+  }
+  
+  .logofooter img{
+      width: calc(30px + 0.4vh);
+      max-width: 100%;
+  }
+  .listfooter{
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      width: 80%;
+      margin: 10px auto;
+  }
+  .listfooter a{
+      white-space: wrap;
+      font-size: 8px;
+      margin: 0 auto;
+      color: silver;
+  }
+  
+  .listfooter a:hover{
+      color: white;
+  }
