@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SIGNAL — Monitor de Noticias</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #09090b;
+    --surface: #111113;
+    --border: rgba(255,255,255,.06);
+    --accent: #e8ff47;
+    --accent-dim: rgba(232,255,71,.12);
+    --text: #e4e4e7;
+    --muted: rgba(228,228,231,.35);
+    --red: #ff4747;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Outfit',sans-serif; min-height:100vh; }
+
+  ::-webkit-scrollbar { width:3px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--accent); border-radius:2px; }
+
+  .mono { font-family:'IBM Plex Mono',monospace; }
+  .bebas { font-family:'Bebas Neue',sans-serif; }
+
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 8px var(--red);
+    animation: pulse-dot 1.5s ease infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:.5; transform:scale(.8); }
+  }
+
+  .ticker-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .ticker-inner {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 60s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: border-color .25s, transform .25s, background .25s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .news-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s ease;
+  }
+  .news-card:hover { border-color: rgba(232,255,71,.3); background: rgba(232,255,71,.03); transform: translateY(-2px); }
+  .news-card:hover::before { transform: scaleX(1); }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .2rem .5rem;
+    border: 1px solid rgba(232,255,71,.2);
+  }
+
+  .country-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .4rem .9rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .country-btn:hover, .country-btn.active {
+    background: var(--accent-dim);
+    border-color: rgba(232,255,71,.4);
+    color: var(--accent);
+  }
+
+  .stat-box {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 1rem 1.25rem;
+  }
+
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    width: 100%;
+    position: fixed;
+    top: 0; left: 0; z-index: 200;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width .1s linear;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,.04) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  .cluster-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .75rem;
+    margin-bottom: 1rem;
+  }
+
+  select, input[type="date"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .7rem;
+    padding: .5rem .75rem;
+    outline: none;
+    transition: border-color .2s;
+    cursor: pointer;
+  }
+  select:focus, input[type="date"]:focus { border-color: rgba(232,255,71,.4); }
+  option { background: var(--surface); }
+
+  .refresh-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .5rem 1.25rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity .2s, transform .2s;
+  }
+  .refresh-btn:hover { opacity: .85; transform: translateY(-1px); }
+  .refresh-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinning { animation: spin .8s linear infinite; display: inline-block; }
+
+  .error-box {
+    border: 1px solid rgba(255,71,71,.2);
+    background: rgba(255,71,71,.05);
+    padding: 1.5rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+
+<!-- HEADER -->
+<header class="border-b" style="border-color:var(--border); background:rgba(9,9,11,.95); backdrop-filter:blur(16px); position:sticky; top:0; z-index:100;">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-6 flex-wrap">
+    <div class="flex items-center gap-4">
+      <div class="live-dot"></div>
+      <h1 class="bebas text-2xl tracking-widest" style="color:var(--accent);">SIGNAL</h1>
+      <span class="mono text-xs" style="color:var(--muted);">// monitor de noticias</span>
+    </div>
+    <div class="flex items-center gap-3 flex-wrap">
+      <div class="stat-box">
+        <p class="mono text-xs" style="color:var(--muted);">CLUSTERS</p>
+        <p class="mono text-lg font-medium" id="clusterCount" style="color:var(--accent);">—</p>
+      </div>
+      <div class="stat-box">
+        <p class="mono text-xs" style="color:var(--muted);">ARTIGOS</p>
+        <p class="mono text-lg font-medium" id="articleCount" style="color:var(--accent);">—</p>
+      </div>
+      <div class="stat-box">
+        <p class="mono text-xs" style="color:var(--muted);">ATUALIZADO</p>
+        <p class="mono text-xs" id="lastUpdate" style="color:var(--accent);">—</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker-wrap py-2 px-0" id="tickerWrap" style="display:none;">
+  <div class="ticker-inner" id="tickerInner"></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="border-b" style="border-color:var(--border); background:var(--surface);">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center gap-4">
+    <div class="flex flex-wrap gap-2">
+      <button class="country-btn" data-country="us" data-lang="en">US / EN</button>
+      <button class="country-btn active" data-country="br" data-lang="pt">BR / PT</button>
+      <button class="country-btn" data-country="gb" data-lang="en">GB / EN</button>
+      <button class="country-btn" data-country="de" data-lang="de">DE / DE</button>
+      <button class="country-btn" data-country="fr" data-lang="fr">FR / FR</button>
+      <button class="country-btn" data-country="jp" data-lang="ja">JP / JA</button>
+    </div>
+    <div class="flex items-center gap-3 ml-auto flex-wrap">
+      <input type="date" id="dateInput" title="Data"/>
+      <select id="maxNews">
+        <option value="1">1 por cluster</option>
+        <option value="3" selected>3 por cluster</option>
+        <option value="5">5 por cluster</option>
+      </select>
+      <button class="refresh-btn" id="refreshBtn" onclick="loadNews()">
+        <span id="refreshIcon">ATUALIZAR</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-6 py-8">
+  <div id="errorBox" class="error-box mb-6" style="display:none;">
+    <p class="mono text-xs" style="color:var(--red);" id="errorMsg"></p>
+  </div>
+  <div id="newsGrid"></div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t mt-16 py-8 px-6" style="border-color:var(--border);">
+  <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
+    <span class="bebas tracking-widest" style="color:var(--accent);">SIGNAL</span>
+    <p class="mono text-xs" style="color:var(--muted);">Desenvolvido por Juan Alan</p>
+    <p class="mono text-xs" style="color:rgba(228,228,231,.15);">Powered by World News API</p>
+  </div>
+</footer>
+
+<script>
+  const API_KEY = 'ec5d0305faf043c185681fc78cd3e658';
+  const BASE_URL = 'https://api.worldnewsapi.com/top-news';
+
+let currentCountry = 'br';
+let currentLang = 'pt';
+
+  // Set today as default date
+  const today = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const todayStr = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+  document.getElementById('dateInput').value = todayStr;
+
+  // Country buttons
+  document.querySelectorAll('.country-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.country-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCountry = btn.dataset.country;
+      currentLang = btn.dataset.lang;
+      loadNews();
+    });
+  });
+
+  function setProgress(pct) {
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function showSkeletons() {
+    const grid = document.getElementById('newsGrid');
+    grid.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const cluster = document.createElement('div');
+      cluster.className = 'mb-10';
+      cluster.innerHTML = `
+        <div class="cluster-label">Cluster ${i+1}</div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${[1,2,3].map(() => `
+            <div class="news-card p-5">
+              <div class="skeleton w-16 h-4 mb-4"></div>
+              <div class="skeleton w-full h-5 mb-2"></div>
+              <div class="skeleton w-4/5 h-5 mb-4"></div>
+              <div class="skeleton w-full h-3 mb-2"></div>
+              <div class="skeleton w-3/4 h-3 mb-4"></div>
+              <div class="skeleton w-24 h-3"></div>
+            </div>`).join('')}
+        </div>`;
+      grid.appendChild(cluster);
+    }
+  }
+
+  function formatDate(str) {
+    if (!str) return '';
+    const d = new Date(str);
+    return d.toLocaleString('pt-BR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function buildTicker(allNews) {
+    const wrap = document.getElementById('tickerWrap');
+    const inner = document.getElementById('tickerInner');
+    const titles = allNews.slice(0, 20).map(n => n.title).filter(Boolean);
+    if (!titles.length) { wrap.style.display='none'; return; }
+    const items = [...titles, ...titles].map(t =>
+      `<span class="mono text-xs px-6 py-1" style="color:var(--muted);">
+        <span style="color:var(--accent); margin-right:12px;">—</span>${t}
+      </span>`
+    ).join('');
+    inner.innerHTML = items;
+    wrap.style.display = 'block';
+  }
+
+  function buildGrid(clusters) {
+    const grid = document.getElementById('newsGrid');
+    grid.innerHTML = '';
+
+    if (!clusters.length) {
+      grid.innerHTML = `<div class="error-box"><p class="mono text-xs" style="color:var(--muted);">Nenhuma noticia encontrada para os filtros selecionados.</p></div>`;
+      return;
+    }
+
+    let totalArticles = 0;
+    clusters.forEach((cluster, ci) => {
+      const news = cluster.news || [];
+      if (!news.length) return;
+      totalArticles += news.length;
+
+      const section = document.createElement('div');
+      section.className = 'mb-12';
+
+      const topStory = news[0];
+      const label = topStory?.title?.split(' ').slice(0,4).join(' ') + '...' || `Cluster ${ci+1}`;
+
+      section.innerHTML = `
+        <div class="cluster-label">Cluster ${String(ci+1).padStart(2,'0')} &nbsp;|&nbsp; ${news.length} artigo${news.length>1?'s':''} &nbsp;|&nbsp; ${label}</div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" id="cluster-${ci}"></div>`;
+      grid.appendChild(section);
+
+      const cardGrid = section.querySelector(`#cluster-${ci}`);
+      news.forEach((article, ai) => {
+        const card = document.createElement('div');
+        card.className = 'news-card p-5 flex flex-col';
+        card.style.animationDelay = (ai * 0.08) + 's';
+
+        const imgHtml = article.image
+          ? `<img src="${article.image}" alt="" class="w-full h-36 object-cover mb-4 rounded-sm" style="border:1px solid var(--border);" loading="lazy" onerror="this.style.display='none'"/>`
+          : '';
+
+        const author = (article.authors && article.authors.length) ? article.authors[0] : (article.author || null);
+        const dateStr = formatDate(article.publish_date);
+        const hasVideo = !!article.video;
+
+        card.innerHTML = `
+          ${imgHtml}
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
+            <span class="tag">${currentCountry.toUpperCase()}</span>
+            ${hasVideo ? '<span class="tag" style="background:rgba(255,71,71,.1);color:var(--red);border-color:rgba(255,71,71,.2);">VIDEO</span>' : ''}
+          </div>
+          <h3 class="font-medium text-sm leading-snug mb-3 flex-1" style="color:var(--text);">${article.title || 'Sem titulo'}</h3>
+          ${article.summary ? `<p class="text-xs leading-relaxed mb-4" style="color:var(--muted);">${article.summary.substring(0,120)}${article.summary.length>120?'...':''}</p>` : ''}
+          <div class="flex items-center justify-between mt-auto pt-4 border-t" style="border-color:var(--border);">
+            <div>
+              ${author ? `<p class="mono text-xs mb-1" style="color:var(--accent); font-size:.6rem;">${author}</p>` : ''}
+              <p class="mono" style="font-size:.55rem; color:var(--muted);">${dateStr}</p>
+            </div>
+            <a href="${article.url}" target="_blank" rel="noopener" class="mono text-xs px-3 py-1 transition-all" style="border:1px solid var(--border); color:var(--muted); font-size:.6rem; letter-spacing:.1em; text-decoration:none; text-transform:uppercase;" onmouseover="this.style.borderColor='rgba(232,255,71,.4)';this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)';">Ler</a>
+          </div>`;
+
+        cardGrid.appendChild(card);
+      });
+    });
+
+    document.getElementById('clusterCount').textContent = clusters.filter(c => c.news?.length).length;
+    document.getElementById('articleCount').textContent = totalArticles;
+  }
+
+  async function loadNews() {
+    const btn = document.getElementById('refreshBtn');
+    const icon = document.getElementById('refreshIcon');
+    const errorBox = document.getElementById('errorBox');
+
+    btn.disabled = true;
+    icon.innerHTML = '<span class="spinning">&#8635;</span> BUSCANDO';
+    errorBox.style.display = 'none';
+    setProgress(10);
+    showSkeletons();
+
+    const dateVal = document.getElementById('dateInput').value;
+    const maxNews = document.getElementById('maxNews').value;
+
+    const params = new URLSearchParams({
+      'source-country': currentCountry,
+      'language': currentLang,
+      'max-news-per-cluster': maxNews,
+    });
+    if (dateVal) params.append('date', dateVal);
+
+    try {
+      setProgress(40);
+      const response = await fetch(`${BASE_URL}?${params}`, {
+        headers: { 'x-api-key': API_KEY }
+      });
+
+      setProgress(75);
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.message || `HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProgress(90);
+
+      const clusters = data.top_news || [];
+      const allNews = clusters.flatMap(c => c.news || []);
+
+      buildGrid(clusters);
+      buildTicker(allNews);
+
+      const now = new Date();
+      document.getElementById('lastUpdate').textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+    } catch (err) {
+      document.getElementById('newsGrid').innerHTML = '';
+      errorBox.style.display = 'block';
+      document.getElementById('errorMsg').textContent = `Erro ao buscar noticias: ${err.message}`;
+      console.error(err);
+    } finally {
+      setProgress(100);
+      btn.disabled = false;
+      icon.textContent = 'ATUALIZAR';
+      setTimeout(() => setProgress(0), 800);
+    }
+  }
+
+  // Auto-refresh every 5 minutes
+  loadNews();
+  setInterval(loadNews, 5 * 60 * 1000);
+</script>
+</body>
+</html>

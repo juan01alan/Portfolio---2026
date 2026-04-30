@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AUREA — Serum Capilar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --dark: #0d0b08;
+    --cream: #f5f0e8;
+    --mid: #1e1a14;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--dark); color: var(--cream); font-family: 'Cormorant Garamond', serif; overflow-x: hidden; }
+
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  .hero-line {
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    height: 1px; width: 100%;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0%,100% { background-position: -200% center; }
+    50% { background-position: 200% center; }
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .fade-up { animation: fadeUp .9s ease forwards; }
+  .delay-1 { animation-delay: .15s; opacity: 0; }
+  .delay-2 { animation-delay: .3s; opacity: 0; }
+  .delay-3 { animation-delay: .45s; opacity: 0; }
+  .delay-4 { animation-delay: .6s; opacity: 0; }
+
+  .gold-text {
+    background: linear-gradient(135deg, #c9a84c 0%, #f0d98e 40%, #c9a84c 60%, #a07830 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #a07830, #c9a84c, #e8d5a3, #c9a84c, #a07830);
+    background-size: 300% auto;
+    color: var(--dark);
+    font-family: 'DM Mono', monospace;
+    font-size: .75rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-position .4s ease, transform .2s ease, box-shadow .3s ease;
+    box-shadow: 0 0 40px rgba(201,168,76,.15);
+  }
+  .btn-gold:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px rgba(201,168,76,.35);
+  }
+
+  .product-glow {
+    position: absolute;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .bottle {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .ingredient-card {
+    border: 1px solid rgba(201,168,76,.15);
+    background: linear-gradient(135deg, rgba(201,168,76,.04), transparent);
+    transition: border-color .3s, background .3s, transform .3s;
+  }
+  .ingredient-card:hover {
+    border-color: rgba(201,168,76,.4);
+    background: linear-gradient(135deg, rgba(201,168,76,.1), transparent);
+    transform: translateY(-4px);
+  }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; }
+  nav::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(13,11,8,.95) 0%, transparent 100%);
+    backdrop-filter: blur(12px);
+  }
+
+  .scroll-line {
+    width: 1px; height: 80px;
+    background: linear-gradient(180deg, var(--gold), transparent);
+    margin: 0 auto;
+  }
+
+  section { position: relative; }
+
+  .divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 1.5rem auto;
+  }
+
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .2em;
+    color: var(--gold);
+  }
+
+  .testimonial-card {
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+  }
+
+  .price-tag {
+    font-family: 'DM Mono', monospace;
+  }
+
+  input, select {
+    background: rgba(201,168,76,.05);
+    border: 1px solid rgba(201,168,76,.2);
+    color: var(--cream);
+    outline: none;
+    transition: border-color .3s;
+  }
+  input:focus, select:focus { border-color: var(--gold); }
+  input::placeholder { color: rgba(245,240,232,.3); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="py-5 px-8">
+  <div class="relative flex items-center justify-between max-w-6xl mx-auto">
+    <span class="font-light tracking-[.35em] text-sm gold-text uppercase">Aurea</span>
+    <div class="hidden md:flex items-center gap-10">
+      <a href="#produto" class="text-xs font-light tracking-widest uppercase text-cream/60 hover:text-gold transition-colors" style="color:rgba(245,240,232,.6)">Produto</a>
+      <a href="#ingredientes" class="text-xs font-light tracking-widest uppercase text-cream/60 hover:text-gold transition-colors" style="color:rgba(245,240,232,.6)">Ingredientes</a>
+      <a href="#resultado" class="text-xs font-light tracking-widest uppercase text-cream/60 hover:text-gold transition-colors" style="color:rgba(245,240,232,.6)">Resultados</a>
+      <a href="#comprar" class="text-xs font-light tracking-widest uppercase text-cream/60 hover:text-gold transition-colors" style="color:rgba(245,240,232,.6)">Comprar</a>
+    </div>
+    <span class="font-mono text-xs tracking-widest" style="color:var(--gold)">R$ 189</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24">
+  <p class="fade-up delay-1 font-mono text-xs tracking-[.3em] uppercase mb-6" style="color:var(--gold); font-family:'DM Mono',monospace;">Serum Capilar Intensivo</p>
+
+  <h1 class="fade-up delay-2 text-6xl md:text-8xl lg:text-9xl font-light leading-none mb-4">
+    <span class="gold-text">Renasça</span><br/>
+    <em>seu cabelo</em>
+  </h1>
+
+  <p class="fade-up delay-3 max-w-md mx-auto font-light text-lg leading-relaxed mt-6 mb-10" style="color:rgba(245,240,232,.6)">
+    Formulado com ouro coloidal e queratina vegetal. Tratamento profundo que transforma cabelos danificados em 14 dias.
+  </p>
+
+  <div class="fade-up delay-4 flex flex-col sm:flex-row gap-4 items-center">
+    <button class="btn-gold" onclick="document.getElementById('comprar').scrollIntoView({behavior:'smooth'})">Adquirir Agora</button>
+    <button onclick="document.getElementById('produto').scrollIntoView({behavior:'smooth'})" class="text-xs font-mono tracking-widest uppercase border-b pb-px transition-colors" style="font-family:'DM Mono',monospace; letter-spacing:.15em; color:rgba(245,240,232,.5); border-color:rgba(245,240,232,.2);">Ver mais</button>
+  </div>
+
+  <!-- Decorative bottle visual -->
+  <div class="relative mt-20 mb-8 w-64 h-64 mx-auto">
+    <div class="product-glow"></div>
+    <div class="bottle relative z-10 w-full h-full flex items-center justify-center">
+      <svg viewBox="0 0 120 200" class="w-40 h-56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="42" y="2" width="36" height="16" rx="4" fill="#c9a84c" opacity=".7"/>
+        <rect x="48" y="16" width="24" height="12" rx="2" fill="#a07830"/>
+        <path d="M30 40 Q20 60 20 90 L20 170 Q20 188 40 188 L80 188 Q100 188 100 170 L100 90 Q100 60 90 40 Z" fill="#1a1509" stroke="#c9a84c" stroke-width="1.5"/>
+        <path d="M35 42 Q26 62 26 90 L26 170 Q26 182 40 182 L80 182 Q94 182 94 170 L94 90 Q94 62 85 42 Z" fill="#0d0b08"/>
+        <text x="60" y="105" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="serif" font-style="italic">Aurea</text>
+        <text x="60" y="118" text-anchor="middle" fill="rgba(201,168,76,.5)" font-size="5" font-family="monospace">SERUM CAPILAR</text>
+        <line x1="44" y1="130" x2="76" y2="130" stroke="rgba(201,168,76,.3)" stroke-width=".5"/>
+        <text x="60" y="142" text-anchor="middle" fill="rgba(201,168,76,.4)" font-size="4" font-family="monospace">30ml</text>
+        <path d="M20 150 Q60 145 100 150" stroke="rgba(201,168,76,.1)" stroke-width="1" fill="none"/>
+        <ellipse cx="60" cy="80" rx="30" ry="8" fill="rgba(201,168,76,.04)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="scroll-line mt-4 mb-2"></div>
+  <p class="font-mono text-xs tracking-widest" style="color:rgba(201,168,76,.4); font-family:'DM Mono',monospace;">scroll</p>
+</section>
+
+<div class="hero-line"></div>
+
+<!-- PRODUTO -->
+<section id="produto" class="py-28 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-20">
+      <p class="font-mono text-xs tracking-[.3em] uppercase mb-4" style="color:var(--gold); font-family:'DM Mono',monospace;">O Produto</p>
+      <h2 class="text-4xl md:text-6xl font-light">Ciencia <em>e elegancia</em></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-px" style="border: 1px solid rgba(201,168,76,.1); background: rgba(201,168,76,.1);">
+      <div class="p-10 text-center" style="background: var(--dark);">
+        <p class="text-5xl font-light gold-text mb-3">14</p>
+        <p class="font-mono text-xs tracking-widest uppercase" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.5);">dias de resultado</p>
+      </div>
+      <div class="p-10 text-center" style="background: var(--dark);">
+        <p class="text-5xl font-light gold-text mb-3">97%</p>
+        <p class="font-mono text-xs tracking-widest uppercase" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.5);">satisfacao comprovada</p>
+      </div>
+      <div class="p-10 text-center" style="background: var(--dark);">
+        <p class="text-5xl font-light gold-text mb-3">0%</p>
+        <p class="font-mono text-xs tracking-widest uppercase" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.5);">quimicos agressivos</p>
+      </div>
+    </div>
+
+    <div class="mt-20 grid md:grid-cols-2 gap-16 items-center">
+      <div>
+        <h3 class="text-3xl font-light mb-6">Para quem e <em>Aurea?</em></h3>
+        <p class="font-light leading-relaxed mb-6" style="color:rgba(245,240,232,.6);">Desenvolvido para cabelos que passaram por processos quimicos, excesso de calor, ou simplesmente perderam vida ao longo do tempo. Nossa formula exclusiva penetra na fibra capilar e reconstroi de dentro para fora.</p>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="w-4 h-px" style="background:var(--gold); flex-shrink:0;"></span>
+            <p class="text-sm font-light" style="color:rgba(245,240,232,.7);">Cabelos quimicamente tratados</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 h-px" style="background:var(--gold); flex-shrink:0;"></span>
+            <p class="text-sm font-light" style="color:rgba(245,240,232,.7);">Pontas duplas e ressecamento</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 h-px" style="background:var(--gold); flex-shrink:0;"></span>
+            <p class="text-sm font-light" style="color:rgba(245,240,232,.7);">Fios sem brilho e sem volume</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-4 h-px" style="background:var(--gold); flex-shrink:0;"></span>
+            <p class="text-sm font-light" style="color:rgba(245,240,232,.7);">Queda excessiva e fios fracos</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="ingredient-card p-6 rounded">
+          <p class="text-2xl font-light gold-text mb-1">I</p>
+          <p class="text-sm font-light mb-1">Hidratacao Profunda</p>
+          <p class="text-xs font-light" style="color:rgba(245,240,232,.4);">Penetracao ate o cortex capilar</p>
+        </div>
+        <div class="ingredient-card p-6 rounded mt-8">
+          <p class="text-2xl font-light gold-text mb-1">II</p>
+          <p class="text-sm font-light mb-1">Reconstrucao</p>
+          <p class="text-xs font-light" style="color:rgba(245,240,232,.4);">Queratina vegetal de alta pureza</p>
+        </div>
+        <div class="ingredient-card p-6 rounded">
+          <p class="text-2xl font-light gold-text mb-1">III</p>
+          <p class="text-sm font-light mb-1">Brilho</p>
+          <p class="text-xs font-light" style="color:rgba(245,240,232,.4);">Ouro coloidal 24k</p>
+        </div>
+        <div class="ingredient-card p-6 rounded mt-8">
+          <p class="text-2xl font-light gold-text mb-1">IV</p>
+          <p class="text-sm font-light mb-1">Protecao UV</p>
+          <p class="text-xs font-light" style="color:rgba(245,240,232,.4);">Escudo solar termico</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hero-line"></div>
+
+<!-- INGREDIENTES -->
+<section id="ingredientes" class="py-28 px-6" style="background: var(--mid);">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-20">
+      <p class="font-mono text-xs tracking-[.3em] uppercase mb-4" style="color:var(--gold); font-family:'DM Mono',monospace;">Formula</p>
+      <h2 class="text-4xl md:text-6xl font-light">Ingredientes <em>nobres</em></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="ingredient-card p-8 rounded-sm">
+        <div class="w-8 h-8 rounded-full mb-6 flex items-center justify-center" style="background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);">
+          <div class="w-3 h-3 rounded-full" style="background:var(--gold);"></div>
+        </div>
+        <h3 class="text-xl font-light mb-3">Ouro Coloidal 24k</h3>
+        <p class="text-sm font-light leading-relaxed" style="color:rgba(245,240,232,.5);">Particulas nanometricas de ouro que ativam a circulacao no couro cabeludo e conferem brilho incomparavel aos fios.</p>
+      </div>
+      <div class="ingredient-card p-8 rounded-sm">
+        <div class="w-8 h-8 rounded-full mb-6 flex items-center justify-center" style="background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);">
+          <div class="w-3 h-3 rounded-full" style="background:var(--gold);"></div>
+        </div>
+        <h3 class="text-xl font-light mb-3">Queratina Vegetal</h3>
+        <p class="text-sm font-light leading-relaxed" style="color:rgba(245,240,232,.5);">Extraida da soja e do trigo, preenche as lacunas da fibra capilar, eliminando o frizz e selando as cutículas abertas.</p>
+      </div>
+      <div class="ingredient-card p-8 rounded-sm">
+        <div class="w-8 h-8 rounded-full mb-6 flex items-center justify-center" style="background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);">
+          <div class="w-3 h-3 rounded-full" style="background:var(--gold);"></div>
+        </div>
+        <h3 class="text-xl font-light mb-3">Oleo de Argan</h3>
+        <p class="text-sm font-light leading-relaxed" style="color:rgba(245,240,232,.5);">Rico em vitamina E e acidos graxos essenciais, nutre profundamente sem pesar, deixando os fios sedosos e maleáveis.</p>
+      </div>
+      <div class="ingredient-card p-8 rounded-sm">
+        <div class="w-8 h-8 rounded-full mb-6 flex items-center justify-center" style="background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);">
+          <div class="w-3 h-3 rounded-full" style="background:var(--gold);"></div>
+        </div>
+        <h3 class="text-xl font-light mb-3">Biotina</h3>
+        <p class="text-sm font-light leading-relaxed" style="color:rgba(245,240,232,.5);">Vitamina do complexo B que fortalece os fios da raiz a ponta e reduz significativamente a queda capilar.</p>
+      </div>
+      <div class="ingredient-card p-8 rounded-sm">
+        <div class="w-8 h-8 rounded-full mb-6 flex items-center justify-center" style="background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);">
+          <div class="w-3 h-3 rounded-full" style="background:var(--gold);"></div>
+        </div>
+        <h3 class="text-xl font-light mb-3">Pantenol</h3>
+        <p class="text-sm font-light leading-relaxed" style="color:rgba(245,240,232,.5);">Forma ativa da vitamina B5 que penetra fundo na haste capilar, garantindo hidratacao prolongada por ate 72 horas.</p>
+      </div>
+      <div class="ingredient-card p-8 rounded-sm">
+        <div class="w-8 h-8 rounded-full mb-6 flex items-center justify-center" style="background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.3);">
+          <div class="w-3 h-3 rounded-full" style="background:var(--gold);"></div>
+        </div>
+        <h3 class="text-xl font-light mb-3">Ceramidas</h3>
+        <p class="text-sm font-light leading-relaxed" style="color:rgba(245,240,232,.5);">Lipidios naturais que restauram a barreira protetora dos fios, bloqueando a perda de umidade e protegendo do calor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODO DE USO -->
+<section id="resultado" class="py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-20">
+      <p class="font-mono text-xs tracking-[.3em] uppercase mb-4" style="color:var(--gold); font-family:'DM Mono',monospace;">Ritual</p>
+      <h2 class="text-4xl md:text-6xl font-light">Como <em>usar</em></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="space-y-12">
+      <div class="flex gap-8 items-start">
+        <span class="step-num text-lg flex-shrink-0 w-12">01</span>
+        <div class="flex-1 border-t pt-8" style="border-color:rgba(201,168,76,.15);">
+          <h3 class="text-2xl font-light mb-3">Lave o cabelo</h3>
+          <p class="font-light" style="color:rgba(245,240,232,.5);">Utilize um shampoo neutro para remover impurezas e abrir as cutículas. Enxague bem com agua morna.</p>
+        </div>
+      </div>
+      <div class="flex gap-8 items-start">
+        <span class="step-num text-lg flex-shrink-0 w-12">02</span>
+        <div class="flex-1 border-t pt-8" style="border-color:rgba(201,168,76,.15);">
+          <h3 class="text-2xl font-light mb-3">Aplique Aurea</h3>
+          <p class="font-light" style="color:rgba(245,240,232,.5);">Com o cabelo levemente umido, distribua de 4 a 6 gotas pelo comprimento evitando o couro cabeludo. Massageie suavemente.</p>
+        </div>
+      </div>
+      <div class="flex gap-8 items-start">
+        <span class="step-num text-lg flex-shrink-0 w-12">03</span>
+        <div class="flex-1 border-t pt-8" style="border-color:rgba(201,168,76,.15);">
+          <h3 class="text-2xl font-light mb-3">Aguarde</h3>
+          <p class="font-light" style="color:rgba(245,240,232,.5);">Deixe agir por 10 minutos com os fios cobertos por uma touca termica para potencializar a absorcao dos ativos.</p>
+        </div>
+      </div>
+      <div class="flex gap-8 items-start">
+        <span class="step-num text-lg flex-shrink-0 w-12">04</span>
+        <div class="flex-1 border-t pt-8" style="border-color:rgba(201,168,76,.15);">
+          <h3 class="text-2xl font-light mb-3">Finalize</h3>
+          <p class="font-light" style="color:rgba(245,240,232,.5);">Enxague com agua fria para selar as cutículas e fixar o tratamento. Finalize como preferir: natural ou com secador.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hero-line"></div>
+
+<!-- DEPOIMENTOS -->
+<section class="py-28 px-6" style="background: var(--mid);">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-20">
+      <p class="font-mono text-xs tracking-[.3em] uppercase mb-4" style="color:var(--gold); font-family:'DM Mono',monospace;">Resultados</p>
+      <h2 class="text-4xl md:text-6xl font-light">O que dizem <em>sobre nos</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-10">
+      <div class="testimonial-card">
+        <p class="font-light text-lg italic leading-relaxed mb-6" style="color:rgba(245,240,232,.7);">"Meu cabelo estava completamente destruido apos a descoloricao. Em duas semanas com Aurea, a transformacao foi absurda."</p>
+        <p class="font-mono text-xs tracking-widest" style="font-family:'DM Mono',monospace; color:var(--gold);">MARINA S.</p>
+        <p class="font-mono text-xs mt-1" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.3);">Sao Paulo, SP</p>
+      </div>
+      <div class="testimonial-card">
+        <p class="font-light text-lg italic leading-relaxed mb-6" style="color:rgba(245,240,232,.7);">"Nunca acreditei que um serum pudesse fazer tanta diferenca. O brilho que meu cabelo ganhou e simplesmente incrível."</p>
+        <p class="font-mono text-xs tracking-widest" style="font-family:'DM Mono',monospace; color:var(--gold);">JULIANA R.</p>
+        <p class="font-mono text-xs mt-1" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.3);">Rio de Janeiro, RJ</p>
+      </div>
+      <div class="testimonial-card">
+        <p class="font-light text-lg italic leading-relaxed mb-6" style="color:rgba(245,240,232,.7);">"Uso ha tres meses. A queda diminuiu muito e os fios ficaram muito mais fortes. Vale cada centavo investido."</p>
+        <p class="font-mono text-xs tracking-widest" style="font-family:'DM Mono',monospace; color:var(--gold);">CAMILA T.</p>
+        <p class="font-mono text-xs mt-1" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.3);">Belo Horizonte, MG</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPRAR -->
+<section id="comprar" class="py-28 px-6">
+  <div class="max-w-2xl mx-auto text-center">
+    <p class="font-mono text-xs tracking-[.3em] uppercase mb-4" style="color:var(--gold); font-family:'DM Mono',monospace;">Adquira</p>
+    <h2 class="text-4xl md:text-6xl font-light mb-6">Transforme <em>seu cabelo</em></h2>
+    <div class="divider"></div>
+
+    <div class="mt-12 p-10 rounded-sm" style="border: 1px solid rgba(201,168,76,.2); background: rgba(201,168,76,.03);">
+      <div class="flex items-center justify-center gap-4 mb-8">
+        <p class="text-5xl font-light gold-text price-tag">R$ 189</p>
+        <div class="text-left">
+          <p class="text-xs font-mono line-through" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.3);">R$ 249</p>
+          <p class="text-xs font-mono" style="font-family:'DM Mono',monospace; color:var(--gold);">-24% OFF</p>
+        </div>
+      </div>
+      <p class="text-sm font-light mb-8" style="color:rgba(245,240,232,.5);">Frete gratis para todo o Brasil. Entrega em ate 5 dias uteis.</p>
+
+      <div class="space-y-4 mb-8">
+        <input type="text" placeholder="Seu nome completo" class="w-full px-4 py-3 rounded-sm text-sm font-light"/>
+        <input type="email" placeholder="Seu melhor e-mail" class="w-full px-4 py-3 rounded-sm text-sm font-light"/>
+        <input type="text" placeholder="CEP" class="w-full px-4 py-3 rounded-sm text-sm font-light"/>
+        <select class="w-full px-4 py-3 rounded-sm text-sm font-light">
+          <option value="">Forma de pagamento</option>
+          <option>Cartao de credito em ate 6x</option>
+          <option>PIX (10% adicional de desconto)</option>
+          <option>Boleto bancario</option>
+        </select>
+      </div>
+
+      <button class="btn-gold w-full">Finalizar Compra</button>
+      <p class="text-xs font-mono mt-4" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.3);">Compra 100% segura — Garantia de 30 dias ou seu dinheiro de volta</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 px-6 border-t" style="border-color:rgba(201,168,76,.1);">
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <span class="gold-text font-light tracking-[.35em] text-sm uppercase">Aurea</span>
+    <p class="font-mono text-xs" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.25);">Desenvolvido por Juan Alan</p>
+    <p class="font-mono text-xs" style="font-family:'DM Mono',monospace; color:rgba(245,240,232,.2);">© 2025 Aurea Cosmeticos</p>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.ingredient-card, .testimonial-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VOZES — Comentarios</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --surface: #ffffff;
+    --dark: #1a1814;
+    --mid: #3d3a33;
+    --muted: #9c9689;
+    --border: #e8e5df;
+    --ink: #2c2820;
+    --accent: #c25a2e;
+    --accent-light: rgba(194,90,46,.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:'Space Grotesk',sans-serif; min-height:100vh; }
+
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--muted); border-radius:2px; }
+
+  .serif { font-family:'Libre Baskerville',serif; }
+  .mono { font-family:'Space Mono',monospace; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  .comment-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: border-color .2s, box-shadow .2s;
+    position: relative;
+  }
+  .comment-card:hover {
+    border-color: var(--muted);
+    box-shadow: 0 4px 20px rgba(26,24,20,.05);
+  }
+  .comment-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .comment-card:hover::before { opacity: 1; }
+
+  textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .925rem;
+    padding: 1rem;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    line-height: 1.6;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(194,90,46,.1);
+  }
+  textarea::placeholder { color: var(--muted); }
+
+  input[type="text"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .925rem;
+    padding: .75rem 1rem;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(194,90,46,.1);
+  }
+  input[type="text"]::placeholder { color: var(--muted); }
+
+  .submit-btn {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .875rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: background .2s, transform .2s, opacity .2s;
+  }
+  .submit-btn:hover { background: #a8461f; transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-center: center;
+    font-family: 'Libre Baskerville', serif;
+    font-size: .875rem;
+    font-style: italic;
+    color: var(--surface);
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .char-count { font-family: 'Space Mono', monospace; font-size: .65rem; }
+
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    padding: 1rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .08em;
+    z-index: 999;
+    border-left: 3px solid;
+    transform: translateX(200%);
+    transition: transform .3s ease;
+    max-width: 300px;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast.success { background: #f0faf0; border-color: #4caf50; color: #2d6b30; }
+  .toast.error { background: #fff5f5; border-color: var(--accent); color: var(--accent); }
+  .toast.warning { background: #fff8f0; border-color: #ff9800; color: #7d4500; }
+
+  .filter-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .35rem .8rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent-light);
+    border-color: rgba(194,90,46,.3);
+    color: var(--accent);
+  }
+
+  @keyframes slideIn {
+    from { opacity:0; transform: translateY(-12px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  .comment-new { animation: slideIn .4s ease forwards; }
+
+  .like-btn {
+    background: none;
+    border: 1px solid var(--border);
+    padding: .25rem .6rem;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem;
+    color: var(--muted);
+    transition: all .2s;
+  }
+  .like-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .like-btn.liked { background: var(--accent-light); border-color: rgba(194,90,46,.3); color: var(--accent); }
+
+  .skeleton {
+    background: linear-gradient(90deg, #eeebe4 25%, #f5f3ed 50%, #eeebe4 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 3px;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  .char-warning { color: var(--accent); }
+  .char-danger { color: #c0392b; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .2rem .5rem;
+    border: 1px solid rgba(194,90,46,.15);
+  }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<header class="border-b sticky top-0 z-50" style="border-color:var(--border); background:rgba(250,249,246,.96); backdrop-filter:blur(12px);">
+  <div class="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+    <div>
+      <h1 class="serif text-2xl italic">Vozes</h1>
+      <p class="mono text-xs mt-px" style="color:var(--muted);">// espaco de expressao livre e respeitosa</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="text-right">
+        <p class="mono text-xs" style="color:var(--muted);">COMENTARIOS</p>
+        <p class="serif text-xl italic" style="color:var(--accent);" id="totalCount">—</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="max-w-3xl mx-auto px-6 py-10">
+
+  <!-- COMPOSE -->
+  <section class="mb-12">
+    <div class="mb-6">
+      <h2 class="serif text-xl italic mb-1">Deixe sua voz</h2>
+      <p class="text-sm" style="color:var(--muted);">Comentarios passam por moderacao automatica. Seja respeitoso e construtivo.</p>
+    </div>
+
+    <div class="comment-card p-6 mb-0">
+      <div class="mb-4">
+        <label class="mono text-xs uppercase tracking-widest block mb-2" style="color:var(--muted);">Seu nome</label>
+        <input type="text" id="authorInput" placeholder="Como devemos te chamar?" maxlength="50"/>
+      </div>
+      <div class="mb-3">
+        <label class="mono text-xs uppercase tracking-widest block mb-2" style="color:var(--muted);">Comentario</label>
+        <textarea id="commentInput" placeholder="Compartilhe seu pensamento..." maxlength="500" oninput="updateCharCount()"></textarea>
+      </div>
+      <div class="flex items-center justify-between mb-4">
+        <p class="char-count" style="color:var(--muted);" id="charCount">0 / 500</p>
+        <p class="mono text-xs" style="color:var(--muted);">Moderacao ativa</p>
+      </div>
+      <button class="submit-btn" id="submitBtn" onclick="submitComment()">
+        Publicar Comentario
+      </button>
+    </div>
+  </section>
+
+  <div class="divider mb-10"></div>
+
+  <!-- FILTERS -->
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <div class="flex gap-2 flex-wrap">
+      <button class="filter-btn active" data-order="newest" onclick="setFilter(this,'newest')">Mais recentes</button>
+      <button class="filter-btn" data-order="oldest" onclick="setFilter(this,'oldest')">Mais antigos</button>
+    </div>
+    <div class="mono text-xs" style="color:var(--muted);" id="loadingStatus">Carregando...</div>
+  </div>
+
+  <!-- COMMENTS LIST -->
+  <div id="commentsList"></div>
+
+  <!-- LOAD MORE -->
+  <div class="text-center mt-8" id="loadMoreWrap" style="display:none;">
+    <button class="filter-btn" onclick="loadMoreComments()" id="loadMoreBtn">Carregar mais</button>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t mt-16 py-8 px-6" style="border-color:var(--border);">
+  <div class="max-w-3xl mx-auto flex items-center justify-between flex-wrap gap-4">
+    <span class="serif italic text-lg" style="color:var(--muted);">Vozes</span>
+    <p class="mono text-xs" style="color:var(--muted);">Desenvolvido por Juan Alan</p>
+    <p class="mono text-xs" style="color:rgba(156,150,137,.4);">Comentarios armazenados com Firebase</p>
+  </div>
+</footer>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast, update } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDoo4CJ8zT60fQFpqzrPQIji4FLGcIrC0k",
+  authDomain: "wesads-10e87.firebaseapp.com",
+  databaseURL: "https://wesads-10e87-default-rtdb.firebaseio.com",
+  projectId: "wesads-10e87",
+  storageBucket: "wesads-10e87.firebasestorage.app",
+  messagingSenderId: "107366091919",
+  appId: "1:107366091919:web:5aad2b0e6370c6fd3374fa"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const commentsRef = ref(db, 'vozes-comments');
+
+// ========== PROFANITY / CONTENT FILTER ==========
+const BLOCKED_PATTERNS = [
+  // Palavroes PT-BR
+  /\b(puta|puta\s*que|filha\s*da\s*puta|fdp|caral+o|cacete|merda|bosta|cuzao|cu|viado|buceta|xota|xoxota|piroca|pau|rola|punheta|porra|vadia|vagabund|safad|desgraça|inferno|idiota|imbecil|babaca|otario|otária|corno|cornudo|lixo|lixeira)\b/gi,
+  // Palavroes EN
+  /\b(fuck|f+u+c+k+|shit|ass|asshole|bitch|dick|cock|pussy|cunt|bastard|motherfucker|damn|crap|piss|whore|slut|retard|faggot|nigger|nigga)\b/gi,
+  // Conteudo sexual/pornografico
+  /\b(porn|porno|pornografia|xxx|sexo\s*explicito|nude|nudes|sexting|masturbat|vibrador|dildo|anal|oral\s*sex|blowjob|handjob|gangbang|orgia|voyeur|fetiche|bdsm)\b/gi,
+  // Discurso de odio
+  /\b(nazi|fascist|hate\s*speech|racial\s*slur|kike|spic|chink|gook|towelhead)\b/gi,
+  // Spam/links suspeitos
+  /(https?:\/\/[^\s]+\.(xyz|top|tk|ml|ga|cf|gq))/gi,
+  // Repetição excessiva (ex: AAAAAAA)
+  /(.)\1{9,}/g,
+  // Conteúdo de violência explicita
+  /\b(matar|assassinar|estuprar|violentar|torturar|decapitar|bomb|terroris)\b/gi,
+];
+
+function containsBlockedContent(text) {
+  for (const pattern of BLOCKED_PATTERNS) {
+    pattern.lastIndex = 0;
+    if (pattern.test(text)) return true;
+  }
+  return false;
+}
+
+function sanitize(str) {
+  return str.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function validateInput(author, comment) {
+  if (!author.trim()) return 'Por favor, insira seu nome.';
+  if (author.trim().length < 2) return 'Nome muito curto. Minimo 2 caracteres.';
+  if (!comment.trim()) return 'Por favor, escreva um comentario.';
+  if (comment.trim().length < 5) return 'Comentario muito curto. Minimo 5 caracteres.';
+  if (containsBlockedContent(author)) return 'Seu nome contem linguagem inadequada.';
+  if (containsBlockedContent(comment)) return 'Seu comentario contem conteudo inadequado. Por favor, revise e tente novamente.';
+  return null;
+}
+
+// ========== AVATAR COLORS ==========
+const AVATAR_COLORS = ['#c25a2e','#2e5cc2','#2ec25a','#c22e5a','#5a2ec2','#c2952e','#2ec2c2'];
+function getAvatarColor(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash<<5)-hash);
+  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+}
+function getInitial(name) { return (name || '?')[0].toUpperCase(); }
+
+// ========== TOAST ==========
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => { t.classList.remove('show'); }, 3800);
+}
+
+// ========== CHAR COUNT ==========
+window.updateCharCount = function() {
+  const val = document.getElementById('commentInput').value.length;
+  const el = document.getElementById('charCount');
+  el.textContent = `${val} / 500`;
+  el.className = 'char-count';
+  if (val > 450) el.classList.add('char-danger');
+  else if (val > 380) el.classList.add('char-warning');
+};
+
+// ========== SUBMIT ==========
+window.submitComment = async function() {
+  const authorEl = document.getElementById('authorInput');
+  const commentEl = document.getElementById('commentInput');
+  const btn = document.getElementById('submitBtn');
+
+  const author = authorEl.value.trim();
+  const comment = commentEl.value.trim();
+
+  const error = validateInput(author, comment);
+  if (error) { showToast(error, 'warning'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Publicando...';
+
+  try {
+    await push(commentsRef, {
+      author: sanitize(author).substring(0, 50),
+      comment: sanitize(comment).substring(0, 500),
+      timestamp: Date.now(),
+      likes: 0,
+    });
+    authorEl.value = '';
+    commentEl.value = '';
+    window.updateCharCount();
+    showToast('Comentario publicado com sucesso!', 'success');
+  } catch (err) {
+    showToast('Erro ao publicar. Tente novamente.', 'error');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Publicar Comentario';
+  }
+};
+
+// ========== FILTER ==========
+let currentOrder = 'newest';
+window.setFilter = function(btn, order) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentOrder = order;
+  renderComments();
+};
+
+// ========== LIKES ==========
+const likedSet = new Set(JSON.parse(localStorage.getItem('vozes-liked') || '[]'));
+
+window.toggleLike = async function(id, currentLikes) {
+  if (likedSet.has(id)) { showToast('Voce ja curtiu este comentario.', 'warning'); return; }
+  likedSet.add(id);
+  localStorage.setItem('vozes-liked', JSON.stringify([...likedSet]));
+  const commentLikeRef = ref(db, `vozes-comments/${id}`);
+  await update(commentLikeRef, { likes: (currentLikes||0)+1 });
+  const btn = document.getElementById(`like-${id}`);
+  if (btn) { btn.classList.add('liked'); btn.querySelector('.lcount').textContent = (currentLikes||0)+1; }
+};
+
+// ========== FORMAT TIME ==========
+function timeAgo(ts) {
+  const diff = (Date.now() - ts) / 1000;
+  if (diff < 60) return 'agora';
+  if (diff < 3600) return `${Math.floor(diff/60)}min`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}h`;
+  if (diff < 2592000) return `${Math.floor(diff/86400)}d`;
+  return new Date(ts).toLocaleDateString('pt-BR');
+}
+
+// ========== RENDER ==========
+let allComments = [];
+const PAGE_SIZE = 10;
+let displayCount = PAGE_SIZE;
+
+function renderComments() {
+  const list = document.getElementById('commentsList');
+  const status = document.getElementById('loadingStatus');
+
+  if (!allComments.length) {
+    list.innerHTML = `
+      <div class="text-center py-16">
+        <p class="serif text-2xl italic mb-3" style="color:var(--muted);">Nenhum comentario ainda</p>
+        <p class="text-sm" style="color:var(--muted);">Seja o primeiro a compartilhar sua voz.</p>
+      </div>`;
+    document.getElementById('totalCount').textContent = '0';
+    status.textContent = '0 comentarios';
+    document.getElementById('loadMoreWrap').style.display = 'none';
+    return;
+  }
+
+  const sorted = [...allComments].sort((a,b) =>
+    currentOrder === 'newest' ? b.timestamp - a.timestamp : a.timestamp - b.timestamp
+  );
+
+  const visible = sorted.slice(0, displayCount);
+  document.getElementById('totalCount').textContent = allComments.length;
+  status.textContent = `${allComments.length} comentario${allComments.length!==1?'s':''}`;
+  document.getElementById('loadMoreWrap').style.display = sorted.length > displayCount ? 'block' : 'none';
+
+  list.innerHTML = '';
+  visible.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'comment-card p-6 mb-4' + (i===0 && displayCount===PAGE_SIZE ? ' comment-new' : '');
+    const color = getAvatarColor(c.author);
+    const initial = getInitial(c.author);
+    const liked = likedSet.has(c.id);
+    card.innerHTML = `
+      <div class="flex items-start gap-4">
+        <div class="avatar" style="background:${color}; width:40px; height:40px; flex-shrink:0;">${initial}</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+            <div class="flex items-center gap-3">
+              <span class="font-semibold text-sm">${c.author}</span>
+              ${i===0 && currentOrder==='newest' ? '<span class="badge">Novo</span>' : ''}
+            </div>
+            <span class="mono text-xs" style="color:var(--muted);">${timeAgo(c.timestamp)}</span>
+          </div>
+          <p class="text-sm leading-relaxed mb-4" style="color:var(--mid);">${c.comment}</p>
+          <div class="flex items-center gap-3">
+            <button class="like-btn${liked?' liked':''}" id="like-${c.id}" onclick="toggleLike('${c.id}',${c.likes||0})">
+              &#9829; <span class="lcount">${c.likes||0}</span>
+            </button>
+            <span class="mono text-xs" style="color:var(--muted);">${new Date(c.timestamp).toLocaleDateString('pt-BR')}</span>
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+window.loadMoreComments = function() {
+  displayCount += PAGE_SIZE;
+  renderComments();
+};
+
+// ========== SKELETON LOADER ==========
+function showSkeleton() {
+  const list = document.getElementById('commentsList');
+  list.innerHTML = [1,2,3].map(() => `
+    <div class="comment-card p-6 mb-4">
+      <div class="flex items-start gap-4">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:50%;flex-shrink:0;"></div>
+        <div class="flex-1">
+          <div class="skeleton w-32 h-4 mb-3"></div>
+          <div class="skeleton w-full h-3 mb-2"></div>
+          <div class="skeleton w-4/5 h-3 mb-2"></div>
+          <div class="skeleton w-2/3 h-3 mb-4"></div>
+          <div class="skeleton w-16 h-6"></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ========== FIREBASE LISTENER ==========
+showSkeleton();
+const q = query(commentsRef, orderByChild('timestamp'));
+onValue(q, (snapshot) => {
+  allComments = [];
+  snapshot.forEach(child => {
+    allComments.push({ id: child.key, ...child.val() });
+  });
+  renderComments();
+}, (err) => {
+  console.error(err);
+  showToast('Erro ao conectar ao banco de dados.', 'error');
+  document.getElementById('loadingStatus').textContent = 'Erro de conexao';
+});
+
+</script>
+</body>
+</html>
